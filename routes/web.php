@@ -25,7 +25,11 @@ Route::middleware(['auth', 'verified'])
     ->name('admin.')
     ->prefix('admin')
     ->group(function () {
-        Route::get('/', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
+        Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+
+        // Posts route here
+
+
     });
 
 
