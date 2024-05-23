@@ -1,7 +1,25 @@
 @extends('layouts.admin')
 
 @section('content')
-    <div class="container">
+    <header class="bg-dark text-white py-3">
+
+        <div class="container d-flex justify-content-between align-items-center">
+
+            <h1>Posts</h1>
+
+            <a class="btn btn-primary" href="{{ route('admin.posts.create') }}">Create</a>
+
+        </div>
+
+    </header>
+
+    {{-- Flash redirect --}}
+    <div class="container my-3">
+        @if (session('message'))
+            <div class="alert alert-success">
+                {{ session('message') }}
+            </div>
+        @endif
 
         <div class="table-responsive">
             <table class="table table-primary">
@@ -22,9 +40,12 @@
                             <td><img src="{{ $post->cover_image }}" alt=""></td>
                             <td>{{ $post->title }}</td>
                             <td>{{ $post->slug }}</td>
+
                             <td>
                                 <a href="{{ route('admin.posts.show', $post) }}">View</a>
+                                <a href="{{ route('admin.posts.edit', $post) }}">Edit</a>
                             </td>
+
                         </tr>
 
                     @empty

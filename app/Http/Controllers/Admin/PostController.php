@@ -20,6 +20,10 @@ class PostController extends Controller
         return view('admin.posts.index', ['posts' => Post::orderByDesc('id')->paginate()]);
     }
 
+
+
+
+
     /**
      * Show the form for creating a new resource.
      */
@@ -28,6 +32,10 @@ class PostController extends Controller
         return view('admin.posts.create');
     }
 
+
+
+
+
     /**
      * Store a newly created resource in storage.
      */
@@ -35,15 +43,21 @@ class PostController extends Controller
     {
         // dd($request->all());
 
+        // validate
         $val_data = $request->validated();
-
         // dd($val_data);
         $val_data['slug'] = Str::slug($request->title, '-');
 
+        // create
         Post::create($val_data);
 
-        return to_route('admin.posts.index');
+        // redirect
+        return to_route('admin.posts.index')->with('message', 'Post created successfully');
     }
+
+
+
+
 
     /**
      * Display the specified resource.
@@ -53,21 +67,45 @@ class PostController extends Controller
         return view('admin.posts.show', compact('post'));
     }
 
+
+
+
+
+
     /**
      * Show the form for editing the specified resource.
      */
     public function edit(Post $post)
     {
-        //
+        return view('admin.posts.edit', compact('post'));
     }
+
+
+
+
 
     /**
      * Update the specified resource in storage.
      */
     public function update(UpdatePostRequest $request, Post $post)
     {
-        //
+        // dd($request->all());
+
+        // validate
+        $val_data = $request->validated();
+        // dd($val_data);
+        $val_data['slug'] = Str::slug($request->title, '-');
+
+        // update
+        $post->update($val_data);
+
+        // redirect
+        return to_route('admin.posts.index')->with('message', 'Post updated successfully');
     }
+
+
+
+
 
     /**
      * Remove the specified resource from storage.
