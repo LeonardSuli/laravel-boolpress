@@ -4,6 +4,8 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Guest\PageController;
+use App\Http\Controllers\Guest\PostController as GuestPostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,11 +18,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-
+Route::get('/', [PageController::class, 'index']);
+Route::resource('posts', GuestPostController::class)->only(['index', 'show']);
 
 Route::middleware(['auth', 'verified'])
     ->name('admin.')
@@ -29,9 +28,10 @@ Route::middleware(['auth', 'verified'])
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
         // Posts route here
-        Route::resource('posts', PostController::class);
+        Route::resource('posts', PostController::class)->parameters([
+            'posts' => 'post:slug'
+        ]);
     });
-
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

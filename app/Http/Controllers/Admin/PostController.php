@@ -7,6 +7,7 @@ use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -46,7 +47,13 @@ class PostController extends Controller
         // validate
         $val_data = $request->validated();
         // dd($val_data);
+
         $val_data['slug'] = Str::slug($request->title, '-');
+
+        $image_path = Storage::put('uploads', $request->cover_image);
+        // dd($image_path);
+        $val_data['cover_image'] = $image_path;
+        // dd($val_data);
 
         // create
         Post::create($val_data);
@@ -94,7 +101,25 @@ class PostController extends Controller
         // validate
         $val_data = $request->validated();
         // dd($val_data);
+
         $val_data['slug'] = Str::slug($request->title, '-');
+
+        if ($request->has('cover_image')) {
+
+            // check if the current post has a cover image
+            if ($post->cover_image) {
+
+                // if so, delete it
+                Storage::delete($post->cover_image);
+            }
+
+            // upload the new image
+            $image_path = Storage::put('uploads', $request->cover_image);
+            // dd($image_path);
+            $val_data['cover_image'] = $image_path;
+            // dd($val_data);
+
+        };
 
         // update
         $post->update($val_data);
@@ -112,6 +137,17 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+
+        if ($post->cover_image) {
+
+            // if so, delete it
+            Storage::delete($post->cover_image);
+        }
+
+        // delete the resource
+        $post->delete();
+
+        // redirect
+        return to_route('admin.posts.index')->with('message', 'Post deleted successfully');
     }
 }

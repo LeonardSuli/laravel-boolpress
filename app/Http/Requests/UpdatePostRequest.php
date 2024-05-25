@@ -23,6 +23,7 @@ class UpdatePostRequest extends FormRequest
     {
         return [
             'title' => 'required',
+            'cover_image' => 'nullable|image|max:500',
             'content' => 'nullable'
         ];
     }

@@ -17,7 +17,7 @@
 
         @include('partials.errors')
 
-        <form action="{{ route('admin.posts.store') }}" method="post">
+        <form action="{{ route('admin.posts.store') }}" method="post" enctype="multipart/form-data">
             @csrf
 
             <div class="mb-3">
@@ -25,6 +25,13 @@
                 <input type="text" class="form-control" name="title" id="title" aria-describedby="titleHelper"
                     placeholder="Add a title for the post" />
                 <small id="titleHelper" class="form-text text-muted">Add post title here</small>
+            </div>
+
+            <div class="mb-3">
+                <label for="cover_image" class="form-label">Upload Cover Image</label>
+                <input type="file" class="form-control" name="cover_image" id="cover_image" placeholder="Cover image"
+                    aria-describedby="coverImageHelper" />
+                <div id="coverImageHelper" class="form-text">Upload a cover image for this post</div>
             </div>
 
             <div class="mb-3">

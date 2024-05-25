@@ -16,7 +16,7 @@
 
         @include('partials.errors')
 
-        <form action="{{ route('admin.posts.update', $post) }}" method="post">
+        <form action="{{ route('admin.posts.update', $post) }}" method="post" enctype="multipart/form-data">
             @csrf
             @method('PUT')
 
@@ -26,6 +26,20 @@
                     placeholder="Add a title for the post" value="{{ old('title', $post->title) }}" />
                 <small id="titleHelper" class="form-text text-muted">Add post title here</small>
             </div>
+
+            <div class="d-flex gap-3">
+
+                <img width="140px" src="{{ asset('storage/' . $post->cover_image) }}" alt="">
+
+                <div class="mb-3">
+                    <label for="cover_image" class="form-label">Upload Another Cover Image</label>
+                    <input type="file" class="form-control" name="cover_image" id="cover_image" placeholder="Cover image"
+                        aria-describedby="coverImageHelper" />
+                    <div id="coverImageHelper" class="form-text">Upload a cover image for this post</div>
+                </div>
+
+            </div>
+
 
             <div class="mb-3">
                 <label for="content" class="form-label">Content</label>
