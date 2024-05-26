@@ -18,6 +18,7 @@
         <div class="row">
 
             <div class="col">
+
                 @if (Str::startsWith($post->cover_image, 'https://'))
                     <img src="{{ $post->cover_image }}" alt="">
                 @else

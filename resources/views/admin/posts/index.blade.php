@@ -120,5 +120,7 @@
             </table>
         </div>
 
+        {{ $posts->links('pagination::bootstrap-5') }}
+
     </div>
 @endsection

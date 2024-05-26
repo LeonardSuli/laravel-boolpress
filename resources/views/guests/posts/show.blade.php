@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.app')
 
 @section('content')
     <header class="bg-dark text-white py-3">
@@ -7,7 +7,7 @@
 
             <h1>{{ $post->title }}</h1>
 
-            <a class="btn btn-primary" href="{{ route('admin.posts.index') }}">All Posts</a>
+            <a class="btn btn-primary" href="{{ route('posts.index') }}">All Posts</a>
 
         </div>
 
@@ -18,6 +18,7 @@
         <div class="row">
 
             <div class="col">
+
                 @if (Str::startsWith($post->cover_image, 'https://'))
                     <img src="{{ $post->cover_image }}" alt="">
                 @else

@@ -14,6 +14,10 @@ class PostController extends Controller
         return view('guests.posts.index', ['posts' => Post::orderByDesc('id')->paginate()]);
     }
 
+
+
+
+
     public function show(Post $post)
     {
         return view('guests.posts.show', compact('post'));
