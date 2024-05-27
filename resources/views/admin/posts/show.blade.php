@@ -20,9 +20,9 @@
             <div class="col">
 
                 @if (Str::startsWith($post->cover_image, 'https://'))
-                    <img src="{{ $post->cover_image }}" alt="">
+                    <img loading='lazy' src="{{ $post->cover_image }}" alt="">
                 @else
-                    <img width="100%" src="{{ asset('storage/' . $post->cover_image) }}" alt="">
+                    <img loading='lazy' width="100%" src="{{ asset('storage/' . $post->cover_image) }}" alt="">
                 @endif
 
             </div>
@@ -30,6 +30,10 @@
             <div class="col">
 
                 <h2>{{ $post->title }}</h2>
+
+                <div class="metadata">
+                    <strong>Category: </strong> {{ $post->category ? $post->category->name : 'Uncategorized' }}
+                </div>
 
                 <div>{{ $post->content }}</div>
 

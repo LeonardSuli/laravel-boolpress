@@ -40,7 +40,6 @@
                 </select>
             </div>
 
-
             <div class="mb-3">
                 <label for="cover_image" class="form-label">Upload Cover Image</label>
                 <input type="file" class="form-control" name="cover_image" id="cover_image" placeholder="Cover image"
