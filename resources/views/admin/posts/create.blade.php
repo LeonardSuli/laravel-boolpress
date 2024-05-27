@@ -28,6 +28,20 @@
             </div>
 
             <div class="mb-3">
+                <label for="category_id" class="form-label">Category</label>
+                <select class="form-select" name="category_id" id="category_id">
+                    <option selected disabled>Select one</option>
+
+                    @foreach ($categories as $category)
+                        <option value="{{ $category->id }}" {{ $category->id === old('category_id') ? 'selected' : '' }}>
+                            {{ $category->name }}</option>
+                    @endforeach
+
+                </select>
+            </div>
+
+
+            <div class="mb-3">
                 <label for="cover_image" class="form-label">Upload Cover Image</label>
                 <input type="file" class="form-control" name="cover_image" id="cover_image" placeholder="Cover image"
                     aria-describedby="coverImageHelper" />
@@ -36,7 +50,7 @@
 
             <div class="mb-3">
                 <label for="content" class="form-label">Content</label>
-                <textarea class="form-control" name="content" id="content" rows="5"></textarea>
+                <textarea class="form-control" name="content" id="content" rows="5">{{ old('content') }}</textarea>
             </div>
 
             <button type="submit" class="btn btn-primary">
