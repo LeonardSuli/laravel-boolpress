@@ -52,10 +52,14 @@ class PostController extends Controller
 
         $val_data['slug'] = Str::slug($request->title, '-');
 
-        $image_path = Storage::put('uploads', $request->cover_image);
-        // dd($image_path);
-        $val_data['cover_image'] = $image_path;
-        // dd($val_data);
+        if ($request->has('cover_image')) {
+
+            $image_path = Storage::put('uploads', $request->cover_image);
+            // dd($image_path);
+
+            $val_data['cover_image'] = $image_path;
+            // dd($val_data);
+        }
 
         // create
         Post::create($val_data);
