@@ -33,9 +33,10 @@
                     <option selected disabled>Select one</option>
 
                     @foreach ($categories as $category)
-                        <option value="{{ $category->id }}"
-                            {{ $category->id === old('category_id', $post->category->id) ? 'selected' : '' }}>
-                            {{ $category->name }}</option>
+                        <option value="{{ $category->id }}" {{-- {{ $category->id === old('category_id', $post->category->id) ? 'selected' : '' }}> --}} {{-- {{ $category->name }} --}}
+                            {{ $category->id === old('category_id', optional($post->category)->id) ? 'selected' : '' }}>
+                            {{ $category->name }}
+                        </option>
                     @endforeach
 
                 </select>

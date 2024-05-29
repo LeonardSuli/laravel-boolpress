@@ -20,7 +20,7 @@ class PostController extends Controller
     {
         // dd(Post::orderByDesc('id')->paginate());
 
-        return view('admin.posts.index', ['posts' => Post::orderByDesc('id')->paginate()]);
+        return view('admin.posts.index', ['posts' => Post::where('user_id', auth()->id())->orderByDesc('id')->paginate()]);
     }
 
 
@@ -61,6 +61,8 @@ class PostController extends Controller
             // dd($val_data);
         }
 
+        $val_data['user_id'] = auth()->id();
+
         // create
         Post::create($val_data);
 
@@ -90,9 +92,14 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        $categories = Category::all();
 
-        return view('admin.posts.edit', compact('post', 'categories'));
+        if ($post->user_id == auth()->id()) {
+
+            $categories = Category::all();
+
+            return view('admin.posts.edit', compact('post', 'categories'));
+        }
+        abort(403, 'You cannnot edit posts of others users!');
     }
 
 
@@ -104,6 +111,12 @@ class PostController extends Controller
      */
     public function update(UpdatePostRequest $request, Post $post)
     {
+        // Se un altro utente prova ad hackerare i post degli altri non può
+        if (auth()->id != $post->user_id) {
+
+            abort(403, 'Really you try hack my app???');
+        }
+
         // dd($request->all());
 
         // validate
@@ -145,6 +158,11 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+        // Se un altro utente prova ad hackerare i post degli altri non può
+        if (auth()->id() != $post->user_id) {
+
+            abort(403, 'Really you try hack my app???');
+        }
 
         if ($post->cover_image) {
 
