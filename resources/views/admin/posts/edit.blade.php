@@ -20,6 +20,7 @@
             @csrf
             @method('PUT')
 
+            {{-- Title --}}
             <div class="mb-3">
                 <label for="title" class="form-label">Title</label>
                 <input type="text" class="form-control" name="title" id="title" aria-describedby="titleHelper"
@@ -27,6 +28,7 @@
                 <small id="titleHelper" class="form-text text-muted">Add post title here</small>
             </div>
 
+            {{-- Category --}}
             <div class="mb-3">
                 <label for="category_id" class="form-label">Category</label>
                 <select class="form-select" name="category_id" id="category_id">
@@ -42,6 +44,7 @@
                 </select>
             </div>
 
+            {{-- Cover Image --}}
             <div class="d-flex gap-3">
 
                 <img width="140px" src="{{ asset('storage/' . $post->cover_image) }}" alt="">
@@ -55,7 +58,29 @@
 
             </div>
 
+            {{-- Tags --}}
+            <div class="mb-3 d-flex gap-3">
 
+                @foreach ($tags as $tag)
+                    <div class="form-check">
+
+                        {{-- Errors --}}
+                        @if ($errors->any())
+                            <input class="form-check-input" type="checkbox" value="{{ $tag->id }}"
+                                id="tag-{{ $tag->id }}" name="tags[]"
+                                {{ in_array($tag->id, old('tags', [])) ? 'checked' : '' }} />
+                        @else
+                            <input class="form-check-input" type="checkbox" value="{{ $tag->id }}"
+                                id="tag-{{ $tag->id }}" name="tags[]"
+                                {{ $post->tags->contains($tag->id) ? 'checked' : '' }} />
+                        @endif
+                        <label class="form-check-label" for="tag-{{ $tag->id }}"> {{ $tag->name }} </label>
+                    </div>
+                @endforeach
+
+            </div>
+
+            {{-- Content --}}
             <div class="mb-3">
                 <label for="content" class="form-label">Content</label>
                 <textarea class="form-control" name="content" id="content" rows="5">{{ old('content', $post->content) }}</textarea>
@@ -64,9 +89,6 @@
             <button type="submit" class="btn btn-primary">
                 Update
             </button>
-
-
-
 
         </form>
     </div>

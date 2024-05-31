@@ -32,7 +32,23 @@
                 <h2>{{ $post->title }}</h2>
 
                 <div class="metadata">
+
                     <strong>Category: </strong> {{ $post->category ? $post->category->name : 'Uncategorized' }}
+
+                    <div class="tags">
+
+                        <strong>Tags: </strong>
+
+                        @forelse ($post->tags as $tag)
+                            <span class="badge bg-dark">{{ $tag->name }}</span>
+
+                        @empty
+
+                            <span>N/A</span>
+                        @endforelse
+
+                    </div>
+
                 </div>
 
                 <div>{{ $post->content }}</div>

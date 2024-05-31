@@ -7,6 +7,7 @@ use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Tag;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 
@@ -32,7 +33,10 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('admin.posts.create', ['categories' => Category::all()]);
+        $categories = Category::all();
+        $tags = Tag::all();
+
+        return view('admin.posts.create', compact('categories', 'tags'));
     }
 
 
@@ -64,7 +68,11 @@ class PostController extends Controller
         $val_data['user_id'] = auth()->id();
 
         // create
-        Post::create($val_data);
+        $post = Post::create($val_data);
+
+        if ($request->has('tags')) {
+            $post->tags()->attach($val_data['tags']);
+        }
 
         // redirect
         return to_route('admin.posts.index')->with('message', 'Post created successfully');
@@ -96,8 +104,9 @@ class PostController extends Controller
         if ($post->user_id == auth()->id()) {
 
             $categories = Category::all();
+            $tags = Tag::all();
 
-            return view('admin.posts.edit', compact('post', 'categories'));
+            return view('admin.posts.edit', compact('post', 'categories', 'tags'));
         }
         abort(403, 'You cannnot edit posts of others users!');
     }
@@ -112,7 +121,7 @@ class PostController extends Controller
     public function update(UpdatePostRequest $request, Post $post)
     {
         // Se un altro utente prova ad hackerare i post degli altri non può
-        if (auth()->id != $post->user_id) {
+        if (auth()->id() != $post->user_id) {
 
             abort(403, 'Really you try hack my app???');
         }
@@ -145,6 +154,10 @@ class PostController extends Controller
         // update
         $post->update($val_data);
 
+        if ($request->has('tags')) {
+            $post->tags()->sync($val_data['tags']);
+        }
+
         // redirect
         return to_route('admin.posts.index')->with('message', 'Post updated successfully');
     }
@@ -158,6 +171,10 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+        // This methods are disabled because we have cascadeOnDelete inside the pivot migration
+        // $post->tags()->sync([]);
+        // $post->tags()->detach();
+
         // Se un altro utente prova ad hackerare i post degli altri non può
         if (auth()->id() != $post->user_id) {
 
