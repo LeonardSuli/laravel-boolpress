@@ -52,10 +52,24 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url('/') }}">{{ __('Home') }}</a>
+                            <a class="nav-link" href="{{ url('/') }}">
+                                <i class="fas fa-home fa-sm fa-fw"></i>{{ __('Home') }}
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('admin.posts.index') }}">{{ __('Posts') }}</a>
+                            <a class="nav-link" href="{{ route('admin.posts.index') }}">
+                                <i class="fas fa-thumbtack fa-sm fa-fw"></i>{{ __('Posts') }}
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('admin.posts.create') }}">
+                                <i class="fas fa-plus-circle fa-sm fa-fw"></i>{{ __('Add Post') }}
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('admin.categories.index') }}">
+                                <i class="fas fa-folder fa-sm fa-fw"></i>{{ __('Categories') }}
+                            </a>
                         </li>
                     </ul>
 
