@@ -13,8 +13,9 @@
 
     </header>
 
-    {{-- Flash redirect --}}
     <div class="container my-3">
+
+        {{-- Flash redirect --}}
         @if (session('message'))
             <div class="alert alert-success">
                 {{ session('message') }}
